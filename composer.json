@@ -1,0 +1,43 @@
+{
+    "name": "hdu/flarum-ext-auth-cas",
+    "description": "Flarum extension of CAS to HDU CAS",
+    "type": "flarum-extension",
+    "keywords": ["authentication"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ChristianSwift",
+            "email": "topman@dingnaiwen.xyz"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/HDUAAA/flarum-ext-auth-cas/issues",
+        "source": "https://github.com/HDUAAA/flarum-ext-auth-cas"
+    },
+    "require": {
+        "flarum/core": "^0.1.0-beta.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "HDUAAA\\Auth\\CAS\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HDUAAA\\Auth\\CAS\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        },
+        "flarum-extension": {
+            "title": "杭电CAS登录插件",
+            "icon": {
+                "name": "lock",
+                "backgroundColor": "#eee",
+                "color": "#12484b"
+            }
+        }
+    }
+}
