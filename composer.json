@@ -1,5 +1,5 @@
 {
-    "name": "hdu/flarum-ext-auth-cas",
+    "name": "hdu/flarum-ext-auth-hducas",
     "description": "Flarum extension of CAS to HDU CAS",
     "type": "flarum-extension",
     "keywords": ["authentication"],
