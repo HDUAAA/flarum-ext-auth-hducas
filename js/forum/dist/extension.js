@@ -1,6 +1,6 @@
 'use strict';
 
-System.register('HDUAAA/auth/cas/main', ['flarum/extend', 'flarum/app', 'flarum/components/LogInButtons', 'flarum/components/LogInButton'], function (_export, _context) {
+System.register('flarum/auth/cas/main', ['flarum/extend', 'flarum/app', 'flarum/components/LogInButtons', 'flarum/components/LogInButton'], function (_export, _context) {
   "use strict";
 
   var extend, app, LogInButtons, LogInButton;
@@ -16,7 +16,7 @@ System.register('HDUAAA/auth/cas/main', ['flarum/extend', 'flarum/app', 'flarum/
     }],
     execute: function () {
 
-      app.initializers.add('HDUAAA-auth-cas', function () {
+      app.initializers.add('flarum-auth-cas', function () {
         extend(LogInButtons.prototype, 'items', function (items) {
           items.add('cas', m(
             LogInButton,
@@ -24,7 +24,7 @@ System.register('HDUAAA/auth/cas/main', ['flarum/extend', 'flarum/app', 'flarum/
               className: 'Button LogInButton--cas',
               icon: 'lock',
               path: '/auth/cas' },
-            app.translator.trans('flarum-auth-cas.forum.log_in.with_cas_button')
+            app.translator.trans('通过 CAS 登录/注册')
           ));
         });
       });

@@ -8,9 +8,9 @@ app.initializers.add('flarum-auth-cas', () => {
     items.add('cas',
       <LogInButton
         className="Button LogInButton--cas"
-        icon="lock"
+        icon="fab fa-lock"
         path="/auth/cas">
-        {app.translator.trans('通过 CAS 登录/注册')}
+        {app.translator.trans('flarum-auth-cas.forum.log_in.with_cas_button')}
       </LogInButton>
     );
   });

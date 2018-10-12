@@ -8,16 +8,24 @@
  * file that was distributed with this source code.
  */
 
-    namespace HDUAAA\Auth\CAS;
+namespace Flarum\Auth\CAS;
 
 use Flarum\Forum\AuthenticationResponseFactory;
 use Flarum\Forum\Controller\AbstractOAuth2Controller;
 use Flarum\Settings\SettingsRepositoryInterface;
-use HDUAAA\Auth\CAS\Provider\CAS;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Zend\Diactoros\Response\RedirectResponse;
 
 class CASAuthController extends AbstractOAuth2Controller
 {
+    /**
+     * @var CAS Server
+     */
+    protected $mailSrv = 'hdu.edu.cn';
+    protected $authUrl = 'http://cas.hdu.edu.cn/cas/login';
+    protected $signUrl = 'http://cas.hdu.edu.cn/cas/login';
+
     /**
      * @var SettingsRepositoryInterface
      */
@@ -36,13 +44,29 @@ class CASAuthController extends AbstractOAuth2Controller
     /**
      * {@inheritdoc}
      */
+    public function handle(Request $request)
+    {
+        $redirectUri = (string) $request->getAttribute('originalUri', $request->getUri())->withQuery('');
+        $ticket = !empty(htmlspecialchars(@$_REQUEST['token'])) ? htmlspecialchars($_REQUEST['token']) : null;
+        if (is_null($ticket)) {
+            header('Location: '.$this->authUrl.'?returnUrl='.urlencode($redirectUri));
+            exit();
+        }
+        $result = file_get_contents($this->signUrl.'token='.$ticket.'&reqtime='.time());
+        $userinfo = json_decode($result, true)['data'];
+        $identification = ['email'  =>  $userinfo['username'].'@'.$this->mailSrv];
+        $suggestions = $this->getSuggestions($userinfo);
+        return $this->authResponse->make($request, $identification, $suggestions);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getProvider($redirectUri)
     {
-        return new CAS([
-            'clientId'     => $this->settings->get('HDUAAA-auth-cas.client_id'),
-            'clientSecret' => $this->settings->get('HDUAAA-auth-cas.client_secret'),
-            'redirectUri'  => $redirectUri
-        ]);
+        $appid = $this->settings->get('flarum-ext-auth-cas.app_id');
+        $appkey = $this->settings->get('flarum-ext-auth-cas.app_secret');
+        return new OAuth($appid, $appkey);
     }
 
     /**
@@ -50,7 +74,7 @@ class CASAuthController extends AbstractOAuth2Controller
      */
     protected function getAuthorizationUrlOptions()
     {
-        return ['scope' => []];
+        return null;
     }
 
     /**
@@ -66,22 +90,16 @@ class CASAuthController extends AbstractOAuth2Controller
     /**
      * {@inheritdoc}
      */
-    protected function getSuggestions(ResourceOwnerInterface $resourceOwner)
+    protected function getSuggestions($userinfo)
     {
+        $username = preg_replace('/[^a-z0-9-_]/i', '', $userinfo['username']);
+        if ($username == '')
+        {
+            $username = $userinfo['user_id'];
+        }
         return [
-            'username' => null,
-            'avatarUrl' => 'https://bbs.sustech.net/assets/avatars/default.jpg'
+            'username' =>  $userinfo['username'],
+            'avatarUrl' => 'https://cas.dingstudio.cn/static/images/head.png'
         ];
-    }
-
-    protected function getEmailFromApi()
-    {
-        $url = $this->provider->domain.'/cas/oauth2.0/profile';
-
-        $email = $this->provider->getResponse(
-            $this->provider->getAuthenticatedRequest('GET', $url, $this->token)
-        );
-
-            return $email['attributes']['email'];
     }
 }

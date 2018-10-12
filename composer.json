@@ -1,30 +1,25 @@
 {
-    "name": "hdu/flarum-ext-auth-hducas",
-    "description": "Flarum extension of CAS to HDU CAS",
+    "name": "ddawx123/flarum-ext-auth-cas",
+    "description": "Allow users to log in with CAS.",
     "type": "flarum-extension",
     "keywords": ["authentication"],
     "license": "MIT",
     "authors": [
         {
-            "name": "ChristianSwift",
-            "email": "topman@dingnaiwen.xyz"
+            "name": "David Ding",
+            "email": "ding@dingstudio.cn"
         }
     ],
     "support": {
-        "issues": "https://github.com/HDUAAA/flarum-ext-auth-cas/issues",
-        "source": "https://github.com/HDUAAA/flarum-ext-auth-cas"
+        "issues": "https://github.com/flarum/core/issues",
+        "source": "https://github.com/ddawx123/flarum-ext-auth-cas"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.7"
+        "flarum/core": "^0.1.0-beta.6"
     },
     "autoload": {
         "psr-4": {
-            "HDUAAA\\Auth\\CAS\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "HDUAAA\\Auth\\CAS\\": "src/"
+            "Flarum\\Auth\\CAS\\": "src/"
         }
     },
     "extra": {
@@ -32,11 +27,11 @@
             "dev-master": "0.1.x-dev"
         },
         "flarum-extension": {
-            "title": "杭电CAS登录插件",
+            "title": "CAS Login",
             "icon": {
                 "name": "lock",
                 "backgroundColor": "#eee",
-                "color": "#12484b"
+                "color": "#333"
             }
         }
     }

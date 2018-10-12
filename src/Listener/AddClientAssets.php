@@ -2,13 +2,13 @@
 /*
  * This file is part of Flarum.
  *
- * (c) Toby Zerner <toby.zerner@gmail.com>
+ * (c) David Ding <ding@dingstudio.cn>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace HDUAAA\Auth\CAS\Listener;
+namespace Flarum\Auth\CAS\Listener;
 
 use Flarum\Event\ConfigureWebApp;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -33,14 +33,14 @@ class AddClientAssets
                 __DIR__.'/../../js/forum/dist/extension.js',
                 __DIR__.'/../../less/forum/extension.less'
             ]);
-            $event->addBootstrapper('HDUAAA/auth/cas/main');
+            $event->addBootstrapper('flarum/auth/cas/main');
         }
 
         if ($event->isAdmin()) {
             $event->addAssets([
                 __DIR__.'/../../js/admin/dist/extension.js'
             ]);
-            $event->addBootstrapper('HDUAAA/auth/cas/main');
+            $event->addBootstrapper('flarum/auth/cas/main');
         }
     }
 }
