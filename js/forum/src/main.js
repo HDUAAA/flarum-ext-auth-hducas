@@ -10,7 +10,7 @@ app.initializers.add('flarum-auth-cas', () => {
         className="Button LogInButton--cas"
         icon="lock"
         path="/auth/cas">
-        {app.translator.trans('通过 CAS 登录/注册')}
+        {app.translator.trans('通过 数字杭电 登录/注册')}
       </LogInButton>
     );
   });

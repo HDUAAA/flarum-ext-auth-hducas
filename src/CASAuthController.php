@@ -24,7 +24,7 @@ class CASAuthController extends AbstractOAuth2Controller
      */
     protected $mailSrv = 'hdu.edu.cn';
     protected $authUrl = 'http://cas.hdu.edu.cn/cas/login';
-    protected $signUrl = 'http://cas.hdu.edu.cn/cas/login';
+    protected $signUrl = 'http://cas.hdu.edu.cn/cas/serviceValidate';
 
     /**
      * @var SettingsRepositoryInterface
@@ -47,14 +47,18 @@ class CASAuthController extends AbstractOAuth2Controller
     public function handle(Request $request)
     {
         $redirectUri = (string) $request->getAttribute('originalUri', $request->getUri())->withQuery('');
-        $ticket = !empty(htmlspecialchars(@$_REQUEST['token'])) ? htmlspecialchars($_REQUEST['token']) : null;
+        $ticket = !empty(htmlspecialchars(@$_REQUEST['ticket'])) ? htmlspecialchars($_REQUEST['ticket']) : null;
         if (is_null($ticket)) {
-            header('Location: '.$this->authUrl.'?returnUrl='.urlencode($redirectUri));
+            header('Location: '.$this->authUrl.'?service='.urlencode($redirectUri));
             exit();
         }
-        $result = file_get_contents($this->signUrl.'token='.$ticket.'&reqtime='.time());
-        $userinfo = json_decode($result, true)['data'];
-        $identification = ['email'  =>  $userinfo['username'].'@'.$this->mailSrv];
+        $result = file_get_contents($this->signUrl.'?ticket='.$ticket.'&service='.urlencode($redirectUri));
+        $userinfo = explode("<sso:user>", $result);
+	$userinfo = explode("<", $userinfo[1]);
+	$fullname = explode('<sso:attribute name="user_name" type="java.lang.String" value="', $result)[1];
+	$fullname = explode('"', $fullname)[0];
+	$userinfo = array('username'=>$fullname,'user_id'=>$userinfo[0]);
+        $identification = ['email'  =>  $userinfo['user_id'].'@'.$this->mailSrv];
         $suggestions = $this->getSuggestions($userinfo);
         return $this->authResponse->make($request, $identification, $suggestions);
     }
@@ -103,3 +107,4 @@ class CASAuthController extends AbstractOAuth2Controller
         ];
     }
 }
+
