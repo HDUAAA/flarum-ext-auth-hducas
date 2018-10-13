@@ -1,18 +1,18 @@
 {
-    "name": "ddawx123/flarum-ext-auth-cas",
+    "name": "HDUAAA/flarum-ext-auth-cas",
     "description": "Allow users to log in with CAS.",
     "type": "flarum-extension",
     "keywords": ["authentication"],
     "license": "MIT",
     "authors": [
         {
-            "name": "David Ding",
-            "email": "ding@dingstudio.cn"
+            "name": "ChristianSwift",
+            "email": "topman@dingnaiwen.xyz"
         }
     ],
     "support": {
-        "issues": "https://github.com/flarum/core/issues",
-        "source": "https://github.com/ddawx123/flarum-ext-auth-cas"
+        "issues": "https://github.com/HDUAAA/flarum-ext-auth-cas/issues",
+        "source": "https://github.com/HDUAAA/flarum-ext-auth-cas"
     },
     "require": {
         "flarum/core": "^0.1.0-beta.6"
@@ -27,7 +27,7 @@
             "dev-master": "0.1.x-dev"
         },
         "flarum-extension": {
-            "title": "CAS Login",
+            "title": "杭电CAS登陆插件",
             "icon": {
                 "name": "lock",
                 "backgroundColor": "#eee",
